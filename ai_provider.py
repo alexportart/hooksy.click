@@ -864,9 +864,11 @@ def generate_viral_post(topic: str, lang: str, platform: str, max_chars: int, us
     Return only the post text without additional comments.
     """
 
-    ai_result = generate_ai_post_text(prompt, clean_topic, lang, platform, max_chars)
+    # Резервируем ~60 символов под хештеги (2 перевода строки + хештеги)
+    max_chars_for_ai = max(50, max_chars - 60)
+    ai_result = generate_ai_post_text(prompt, clean_topic, lang, platform, max_chars_for_ai)
     if not ai_result:
-        text = build_viral_fallback_post(clean_topic, lang, platform, max_chars, use_emojis=use_emojis)
+        text = build_viral_fallback_post(clean_topic, lang, platform, max_chars_for_ai, use_emojis=use_emojis)
         hashtags = generate_hashtags(topic, lang)
         hashtags_string = " ".join(hashtags)
         return {
