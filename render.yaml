@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: hooksy-click
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && npm install && npm run build
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: SERVER_HOST
+        value: 0.0.0.0
+      - key: SERVER_PORT
+        value: 10000

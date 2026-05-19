@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+__pycache__/
+.venv/
+
+# Build
+dist/
+tsconfig.tsbuildinfo
+
+# Environment
+.env
+
+# OS
+*.png
+*.jpg
+*.jpeg
+*.gif
