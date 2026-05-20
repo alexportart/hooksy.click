@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" fill="none" aria-label="Hooksy.click">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 48" fill="none" aria-label="Hooksy.click">
   <text x="0" y="36" font-family="Baloo 2, system-ui, sans-serif" font-size="36" font-weight="800" fill="#111827">Hooksy</text>
-  <rect x="128" y="10" width="88" height="32" rx="12" fill="#6A3CFF"/>
-  <text x="142" y="33" font-family="Baloo 2, system-ui, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">.click</text>
+  <rect x="138" y="10" width="88" height="32" rx="12" fill="#6A3CFF"/>
+  <text x="152" y="33" font-family="Baloo 2, system-ui, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">.click</text>
 </svg>
