@@ -566,17 +566,8 @@ def generate_text(prompt: str, topic: str, lang: str, platform: str) -> str:
     max_attempts = 5
 
     while attempts < max_attempts:
-        # Проверяем все доступные провайдеры (OpenRouter временно отключен из-за перегрузки)
+        # Только OpenRouter — единственный провайдер
         for provider_name, provider_call in [
-            ("groq", call_groq),
-            ("gemini", call_google),
-            ("deepinfra", call_deepinfra),
-            ("deepseek", call_deepseek),
-            ("huggingface", call_huggingface),
-            ("cohere", call_cohere),
-            ("sambanova", call_sambanova),
-            ("cerebras", call_cerebras),
-            ("together", call_together),
             ("openrouter", call_openrouter),
         ]:
             result = provider_call(prompt)
@@ -638,18 +629,9 @@ def generate_ai_post_text(prompt: str, topic: str, lang: str, platform: str, max
     """Генерирует пост только через нейросеть. Fallback-шаблоны здесь запрещены."""
     lang = normalize_lang(lang)
     cache_key = get_cache_key(topic, lang, platform)
-    # Все доступные провайдеры — порядок обхода (полный список всех API)
+    # Только OpenRouter — единственный провайдер
     providers = [
-        ("groq", call_groq),
         ("openrouter", call_openrouter),
-        ("gemini", call_google),
-        ("deepinfra", call_deepinfra),
-        ("deepseek", call_deepseek),
-        ("huggingface", call_huggingface),
-        ("cohere", call_cohere),
-        ("sambanova", call_sambanova),
-        ("cerebras", call_cerebras),
-        ("together", call_together),
     ]
 
     for attempt in range(3):
@@ -720,12 +702,7 @@ def _ai_hashtags(topic: str, post_text: str, lang: str) -> Optional[List[str]]:
     - Do NOT number them, do NOT add explanations.
     """
     for provider_name, provider_call in [
-        ("groq", call_groq),
         ("openrouter", call_openrouter),
-        ("gemini", call_google),
-        ("deepinfra", call_deepinfra),
-        ("deepseek", call_deepseek),
-        ("together", call_together),
     ]:
         result = provider_call(prompt)
         if not result:
