@@ -347,12 +347,16 @@ def build_viral_fallback_post(topic: str, lang: str, platform: str, max_chars: i
     return trim_to_max_chars(text, max_chars)
 
 def call_openrouter(prompt: str) -> str:
-    """Вызов OpenRouter API с обработкой ошибок и запасными моделями."""
+    """Вызов OpenRouter API — ТОЛЬКО бесплатные модели."""
     models = [
         API_MODELS["openrouter"],
-        "openrouter/free",
+        "google/gemini-2.5-flash:free",
         "meta-llama/llama-3.3-70b-instruct:free",
+        "meta-llama/llama-3.1-70b-instruct:free",
         "meta-llama/llama-3.2-3b-instruct:free",
+        "google/gemini-2.0-flash:free",
+        "qwen/qwen2.5-vl-72b-instruct:free",
+        "deepseek/deepseek-chat:free",
     ]
     seen = set()
     for model in models:
