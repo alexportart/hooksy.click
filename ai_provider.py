@@ -249,7 +249,11 @@ def trim_to_max_chars(text: str, max_chars: int) -> str:
     return trimmed.rstrip(".,;:!?—-") + "…"
 
 def _openai_chat_completion(url: str, api_key: str, model: str, prompt: str, timeout: int = 20) -> Optional[str]:
-    """Общий вызов OpenAI-совместимого chat/completions API."""
+    """Общий вызов OpenAI-совместимого chat/completions API.
+    
+    Важно: используем stream=False и короткий таймаут,
+    чтобы не блокировать gunicorn worker при зависании upstream.
+    """
     if not api_key:
         return None
     try:
@@ -258,20 +262,28 @@ def _openai_chat_completion(url: str, api_key: str, model: str, prompt: str, tim
             headers={
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
+                "HTTP-Referer": "https://hooksy.click",
+                "X-Title": "Hooksy.click",
             },
             json={
                 "model": model,
                 "messages": [{"role": "user", "content": prompt}],
                 "temperature": 0.8,
                 "max_tokens": 500,
+                "stream": False,
             },
-            timeout=timeout,
+            timeout=(timeout, timeout),
+            stream=False,
         )
         if response.status_code == 200:
             return response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
         logger.warning("API %s model=%s -> HTTP %s: %s", url, model, response.status_code, response.text[:200])
+    except requests.exceptions.Timeout:
+        logger.warning("API %s model=%s -> TIMEOUT after %ss", url, model, timeout)
+    except requests.exceptions.ConnectionError as exc:
+        logger.warning("API %s model=%s -> CONNECTION ERROR: %s", url, model, exc)
     except Exception as exc:
-        logger.warning("API %s model=%s failed: %s", url, model, exc)
+        logger.warning("API %s model=%s -> UNEXPECTED ERROR: %s", url, model, exc)
     return None
 
 
@@ -351,8 +363,6 @@ def call_openrouter(prompt: str) -> str:
     models = [
         API_MODELS["openrouter"],
         "meta-llama/llama-3.3-70b-instruct:free",
-        "deepseek/deepseek-v4-flash:free",
-        "nousresearch/hermes-3-llama-3.1-405b:free",
         "openrouter/free",
     ]
     seen = set()
@@ -360,8 +370,8 @@ def call_openrouter(prompt: str) -> str:
         if not model or model in seen:
             continue
         seen.add(model)
-        # Короткий таймаут чтобы не убивать gunicorn worker
-        result = _openai_chat_completion(API_URLS["openrouter"], API_KEYS["openrouter"], model, prompt, timeout=12)
+        # Агрессивно короткий таймаут чтобы не блокировать gunicorn worker
+        result = _openai_chat_completion(API_URLS["openrouter"], API_KEYS["openrouter"], model, prompt, timeout=8)
         if result:
             return result
     return None
