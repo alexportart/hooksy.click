@@ -3,6 +3,9 @@ import json
 import random
 import re
 import requests
+import urllib.request
+import urllib.error
+import socket
 from typing import Dict, List, Optional
 import logging
 from datetime import datetime
@@ -251,39 +254,51 @@ def trim_to_max_chars(text: str, max_chars: int) -> str:
 def _openai_chat_completion(url: str, api_key: str, model: str, prompt: str, timeout: int = 20) -> Optional[str]:
     """Общий вызов OpenAI-совместимого chat/completions API.
     
-    Важно: используем stream=False и короткий таймаут,
-    чтобы не блокировать gunicorn worker при зависании upstream.
+    Используем urllib.request вместо requests чтобы избежать
+    зависания на чанкированном чтении от OpenRouter.
     """
     if not api_key:
         return None
+    
+    payload = json.dumps({
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.8,
+        "max_tokens": 500,
+        "stream": False,
+    }).encode("utf-8")
+    
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://hooksy.click",
+            "X-Title": "Hooksy.click",
+            "Content-Length": str(len(payload)),
+        },
+        method="POST",
+    )
+    
+    old_timeout = socket.getdefaulttimeout()
+    socket.setdefaulttimeout(timeout)
+    
     try:
-        response = requests.post(
-            url,
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-                "HTTP-Referer": "https://hooksy.click",
-                "X-Title": "Hooksy.click",
-            },
-            json={
-                "model": model,
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.8,
-                "max_tokens": 500,
-                "stream": False,
-            },
-            timeout=(timeout, timeout),
-            stream=False,
-        )
-        if response.status_code == 200:
-            return response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
-        logger.warning("API %s model=%s -> HTTP %s: %s", url, model, response.status_code, response.text[:200])
-    except requests.exceptions.Timeout:
-        logger.warning("API %s model=%s -> TIMEOUT after %ss", url, model, timeout)
-    except requests.exceptions.ConnectionError as exc:
-        logger.warning("API %s model=%s -> CONNECTION ERROR: %s", url, model, exc)
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return data.get("choices", [{}])[0].get("message", {}).get("content", "")
+    except socket.timeout:
+        logger.warning("API %s model=%s -> SOCKET TIMEOUT after %ss", url, model, timeout)
+    except urllib.error.HTTPError as exc:
+        logger.warning("API %s model=%s -> HTTP %s: %s", url, model, exc.code, exc.read()[:200].decode("utf-8", errors="ignore"))
+    except urllib.error.URLError as exc:
+        logger.warning("API %s model=%s -> URL ERROR: %s", url, model, exc.reason)
     except Exception as exc:
-        logger.warning("API %s model=%s -> UNEXPECTED ERROR: %s", url, model, exc)
+        logger.warning("API %s model=%s -> ERROR: %s", url, model, exc)
+    finally:
+        socket.setdefaulttimeout(old_timeout)
+    
     return None
 
 
