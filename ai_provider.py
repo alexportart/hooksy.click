@@ -353,11 +353,6 @@ def call_openrouter(prompt: str) -> str:
         "meta-llama/llama-3.3-70b-instruct:free",
         "deepseek/deepseek-v4-flash:free",
         "nousresearch/hermes-3-llama-3.1-405b:free",
-        "google/gemma-4-31b-it:free",
-        "qwen/qwen3-next-80b-a3b-instruct:free",
-        "openai/gpt-oss-120b:free",
-        "nvidia/nemotron-3-super-120b-a12b:free",
-        "meta-llama/llama-3.2-3b-instruct:free",
         "openrouter/free",
     ]
     seen = set()
@@ -365,7 +360,8 @@ def call_openrouter(prompt: str) -> str:
         if not model or model in seen:
             continue
         seen.add(model)
-        result = _openai_chat_completion(API_URLS["openrouter"], API_KEYS["openrouter"], model, prompt)
+        # Короткий таймаут чтобы не убивать gunicorn worker
+        result = _openai_chat_completion(API_URLS["openrouter"], API_KEYS["openrouter"], model, prompt, timeout=12)
         if result:
             return result
     return None
