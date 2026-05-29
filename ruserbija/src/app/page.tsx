@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HANDBOOK_CATEGORIES } from "@/lib/handbook";
 import Footer from "@/components/Footer";
+import { Icons } from "@/components/icons";
 
 const PAGE_STYLES = `
   .cat-card { background:#fff;border:1.5px solid rgba(13,27,76,0.1);border-radius:16px;padding:20px;cursor:pointer;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column;gap:8px;height:100%;text-decoration:none; }
@@ -60,7 +61,10 @@ export default function Home() {
       <section style={{ padding: "52px 24px 0" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
           <div style={{ marginBottom: 24 }}>
-            <div className="sec-label">📖 Справочник</div>
+            <div className="sec-label" style={{ color: "#2E5CAA", background: "rgba(46,92,170,0.07)", border: "1.5px solid rgba(46,92,170,0.15)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", color: "#2E5CAA" }}>{Icons["📖"]}</span>
+              Справочник
+            </div>
             <h2 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0D1B4C", lineHeight: 1.25 }}>
               Всё о жизни в Сербии по шагам
             </h2>
@@ -73,7 +77,7 @@ export default function Home() {
             {HANDBOOK_CATEGORIES.map(cat => (
               <Link key={cat.slug} href={`/topics/${cat.slug}`} className="cat-card">
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <span style={{ fontSize: 28, lineHeight: 1 }}>{cat.emoji}</span>
+                  <span style={{ display: "inline-flex", alignItems: "center", color: "#2E5CAA" }}>{Icons[cat.emoji] || cat.emoji}</span>
                   <h3 style={{ fontSize: 17, fontWeight: 700, color: "#0D1B4C", margin: 0 }}>{cat.title}</h3>
                 </div>
                 <p style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.55, margin: 0, flex: 1 }}>
@@ -113,7 +117,10 @@ function ArticlesPreview() {
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 22 }}>
           <div>
-            <div className="sec-label" style={{ color:"#7C3AED", background:"rgba(124,58,237,0.07)", border:"1.5px solid rgba(124,58,237,0.15)" }}>📰 Статьи</div>
+            <div className="sec-label" style={{ color:"#7C3AED", background:"rgba(124,58,237,0.07)", border:"1.5px solid rgba(124,58,237,0.15)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", color: "#7C3AED" }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg></span>
+              Статьи
+            </div>
             <h2 style={{ fontSize: "1.35rem", fontWeight: 800, color: "#0D1B4C", lineHeight: 1.25 }}>Полезные статьи</h2>
           </div>
           <Link href="/articles" className="see-all-link">Все статьи →</Link>
@@ -168,7 +175,10 @@ function GuidesPreview() {
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 22 }}>
           <div>
-            <div className="sec-label" style={{ color:"#E53935", background:"rgba(229,57,53,0.07)", border:"1.5px solid rgba(229,57,53,0.15)" }}>📖 Гайды</div>
+            <div className="sec-label" style={{ color:"#E53935", background:"rgba(229,57,53,0.07)", border:"1.5px solid rgba(229,57,53,0.15)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", color: "#E53935" }}>{Icons["📋"]}</span>
+              Гайды
+            </div>
             <h2 style={{ fontSize: "1.35rem", fontWeight: 800, color: "#0D1B4C", lineHeight: 1.25 }}>Пошаговые инструкции</h2>
           </div>
           <Link href="/guides" className="see-all-link">Все гайды →</Link>
@@ -184,7 +194,9 @@ function GuidesPreview() {
                     background: "linear-gradient(135deg, #0D1B4C 0%, #2E5CAA 100%)",
                     padding: "18px 20px 14px",
                   }}>
-                    <div style={{ fontSize: 28, lineHeight: 1, marginBottom: 10 }}>{g.icon}</div>
+                    <div style={{ display: "inline-flex", alignItems: "center", color: "#fff", marginBottom: 10 }}>
+                      <span style={{ width: 28, height: 28, display: "inline-flex", alignItems: "center" }}>{Icons[g.icon] || g.icon}</span>
+                    </div>
                     <h3 style={{ fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.4, margin: 0 }}>
                       {g.title}
                     </h3>

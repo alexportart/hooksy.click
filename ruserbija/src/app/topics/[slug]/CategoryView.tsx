@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { HandbookEntry } from "@/lib/handbook";
+import { Icons } from "@/components/icons";
 
 /** Рендер облегчённого markdown: абзацы + списки "- " */
 function renderContent(content: string) {
@@ -54,7 +55,7 @@ export default function CategoryView({ entries }: { entries: HandbookEntry[] }) 
                 cursor: "pointer", textAlign: "left", fontFamily: "'Rubik', sans-serif",
               }}
             >
-              <span style={{ fontSize: 24, lineHeight: 1, flexShrink: 0 }}>{entry.emoji}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", color: "#2E5CAA", flexShrink: 0 }}>{Icons[entry.emoji] || entry.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span style={{ fontSize: 16, fontWeight: 700, color: "#0D1B4C" }}>{entry.title}</span>

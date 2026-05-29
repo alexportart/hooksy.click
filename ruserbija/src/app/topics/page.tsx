@@ -3,6 +3,7 @@ import Link from "next/link";
 import { HANDBOOK_CATEGORIES } from "@/lib/handbook";
 import Footer from "@/components/Footer";
 import AskInGroups from "@/components/AskInGroups";
+import { Icons } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Справочник эмигранта в Сербии",
@@ -35,7 +36,7 @@ export default function TopicsPage() {
                 transition: "border-color 0.2s, transform 0.2s, box-shadow 0.2s",
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <span style={{ fontSize: 30, lineHeight: 1 }}>{cat.emoji}</span>
+                  <span style={{ display: "inline-flex", alignItems: "center", color: "#2E5CAA" }}>{Icons[cat.emoji] || cat.emoji}</span>
                   <h2 style={{ fontSize: 18, fontWeight: 700, color: "#0D1B4C", margin: 0 }}>
                     {cat.title}
                   </h2>
