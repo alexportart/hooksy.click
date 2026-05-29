@@ -11,7 +11,5 @@ tsconfig.tsbuildinfo
 .env
 
 # OS
-*.png
-*.jpg
-*.jpeg
-*.gif
+.DS_Store
+Thumbs.db

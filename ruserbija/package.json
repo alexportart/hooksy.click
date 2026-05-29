@@ -1,0 +1,34 @@
+{
+  "name": "ruserbija",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "fb:export": "powershell -File scripts/run_export.ps1",
+    "fb:playwright": "tsx scripts/fb-playwright-scraper.ts",
+    "fb:analyze": "tsx scripts/analyze-posts.ts",
+    "fb:summaries": "tsx scripts/generate-summaries.ts"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^2.6.13",
+    "lucide-react": "^1.16.0",
+    "next": "16.2.6",
+    "node-fetch": "^3.3.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4",
+    "tsx": "^4.22.3",
+    "typescript": "^5"
+  }
+}
