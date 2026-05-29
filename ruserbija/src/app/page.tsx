@@ -54,11 +54,6 @@ export default function Home() {
           медицина, документы и быт — на основе реального опыта.
         </p>
 
-        <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 48 }}>
-          <span style={{ width: 32, height: 4, borderRadius: 2, background: "#0D1B4C" }} />
-          <span style={{ width: 32, height: 4, borderRadius: 2, background: "#2E5CAA" }} />
-          <span style={{ width: 32, height: 4, borderRadius: 2, background: "#E53935" }} />
-        </div>
       </section>
 
       {/* ── СПРАВОЧНИК ───────────────────────────────────────── */}
