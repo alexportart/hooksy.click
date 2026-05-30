@@ -116,4 +116,5 @@ export interface Guide {
   difficulty: 'easy' | 'medium' | 'hard';
   timeRequired: string;
   tags: string[];
+  publishedAt?: string;   // ISO-дата публикации (для маркировки NEW)
 }

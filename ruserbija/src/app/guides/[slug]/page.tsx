@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getGuide, getGuides } from "@/lib/guides";
 import { Guide } from "@/lib/types";
 import Footer from "@/components/Footer";
+import NewBadgeClient from "@/components/NewBadgeClient";
+import SaveLinks from "@/components/SaveLinks";
 
 function RelatedGuides({ current }: { current: Guide }) {
   const related = getGuides()
@@ -90,7 +92,8 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           boxShadow: "0 2px 20px rgba(13,27,76,0.06)",
         }}>
           {/* Badges */}
-          <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
+            <NewBadgeClient publishedAt={guide.publishedAt} />
             <span style={{
               fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 99,
               background: diff.bg, border: `1.5px solid ${diff.border}`, color: diff.text,
@@ -157,6 +160,9 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
               </div>
             ))}
           </div>
+
+          {/* Сохранить себе */}
+          <SaveLinks title={guide.title} />
 
           {/* Related */}
           <RelatedGuides current={guide} />

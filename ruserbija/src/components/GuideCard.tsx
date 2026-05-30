@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { Guide } from "@/lib/types";
+import { isNew } from "@/lib/freshness";
+import NewBadge from "@/components/NewBadge";
 
 const DIFFICULTY_LABELS = { easy: "Легко", medium: "Средне", hard: "Сложно" };
 const DIFFICULTY_COLORS = {
@@ -30,7 +32,8 @@ export default function GuideCard({ guide }: { guide: Guide }) {
           (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
         }}
       >
-        <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
+          {isNew(guide.publishedAt) && <NewBadge />}
           <span style={{
             fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 99,
             background: diff.bg, border: `1px solid ${diff.border}`, color: diff.text,

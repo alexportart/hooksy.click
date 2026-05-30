@@ -39,7 +39,12 @@ export default function Home() {
           Портал для эмигрантов · Сербия 🇷🇸
         </div>
 
-        <div style={{ marginBottom: 8, display: "flex", justifyContent: "center" }}>
+        <div style={{ marginBottom: 8, display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(8px, 2vw, 24px)" }}>
+          <img
+            src="/rossiya-sign.png"
+            alt="Свалил из России"
+            style={{ height: "clamp(90px, 15vw, 150px)", width: "auto", filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.18))" }}
+          />
           <img
             src="/logo.png"
             alt="Svalil.com — портал для эмигрантов в Сербии"
@@ -77,7 +82,7 @@ export default function Home() {
                   Новое на сайте
                 </div>
                 <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.25 }}>
-                  🗺 Визуальная карта пути эмигранта
+                  Визуальная карта пути эмигранта
                 </h2>
                 <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.75)", margin: 0, lineHeight: 1.6, maxWidth: 480 }}>
                   Все варианты легализации в Сербии: виза-ран, ВНЖ по ИП / ООО / работе / браку,

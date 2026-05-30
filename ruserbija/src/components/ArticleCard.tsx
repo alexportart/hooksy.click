@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { Article } from "@/lib/types";
+import { isNew } from "@/lib/freshness";
+import NewBadge from "@/components/NewBadge";
 
 const CATEGORY_LABELS: Record<string, string> = {
   housing: "Жильё", banks: "Банки", cost_of_living: "Стоимость жизни",
@@ -33,7 +35,7 @@ export default function ArticleCard({ article }: { article: Article }) {
           (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
         }}
       >
-        <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
           <span style={{
             fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 99,
             background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.25)",
@@ -41,6 +43,7 @@ export default function ArticleCard({ article }: { article: Article }) {
           }}>
             {CATEGORY_LABELS[article.category] ?? article.category}
           </span>
+          {isNew(article.publishedAt) && <NewBadge />}
         </div>
 
         <h3 style={{

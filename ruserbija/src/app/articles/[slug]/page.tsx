@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getArticle, getArticles } from "@/lib/articles";
 import { Article } from "@/lib/types";
 import Footer from "@/components/Footer";
+import NewBadgeClient from "@/components/NewBadgeClient";
+import SaveLinks from "@/components/SaveLinks";
 
 function RelatedArticles({ current }: { current: Article }) {
   const related = getArticles()
@@ -52,6 +54,8 @@ function renderMarkdown(md: string): string {
   return md
     // Убираем строки-разделители таблиц вида |-----|-----|
     .replace(/^\s*\|[\s:|-]+\|\s*$/gm, '')
+    // Markdown-ссылки [текст](url) → <a> (до остальных правил)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer sponsored" style="color:#2E5CAA;font-weight:600;text-decoration:underline">$1</a>')
     .replace(/^### (.+)$/gm, '<h3 style="font-size:1.05rem;font-weight:700;color:#0D1B4C;margin:24px 0 10px">$1</h3>')
     .replace(/^## (.+)$/gm, '<h2 style="font-size:1.25rem;font-weight:700;color:#0D1B4C;margin:32px 0 12px">$1</h2>')
     .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#0D1B4C;font-weight:700">$1</strong>')
@@ -115,9 +119,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {/* Мета */}
           <div style={{
             display: "flex", gap: 16, fontSize: 13, color: "#6B7280",
-            marginBottom: 36, paddingBottom: 28,
+            marginBottom: 36, paddingBottom: 28, alignItems: "center",
             borderBottom: "1px solid rgba(13,27,76,0.08)",
           }}>
+            <NewBadgeClient publishedAt={article.publishedAt} />
             <span>{date}</span>
             <span style={{ color: "#CBD5E0" }}>·</span>
             <span>{article.readTime} мин чтения</span>
@@ -128,6 +133,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             style={{ fontSize: 15, lineHeight: 1.8, color: "#2D3748" }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(article.content) }}
           />
+
+          {/* Сохранить себе */}
+          <SaveLinks title={article.title} />
 
           {/* Related */}
           <RelatedArticles current={article} />

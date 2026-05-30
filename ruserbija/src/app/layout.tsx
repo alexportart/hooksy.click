@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
+import PorosenokPeek from "@/components/PorosenokPeek";
 
 const BASE_URL = "https://svalil.com";
 
@@ -60,6 +61,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <Header />
         {children}
+        <PorosenokPeek />
         {/* JSON-LD Schema.org для организации */}
         <script
           type="application/ld+json"

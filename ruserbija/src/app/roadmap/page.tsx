@@ -23,7 +23,7 @@ export default function RoadmapPage() {
           borderRadius: 99, padding: "5px 16px", marginBottom: 20,
           fontSize: 12, color: "#2E5CAA", fontWeight: 600, letterSpacing: "0.04em",
         }}>
-          🗺 Карта пути эмигранта
+          Карта пути эмигранта
         </div>
 
         <h1 style={{
