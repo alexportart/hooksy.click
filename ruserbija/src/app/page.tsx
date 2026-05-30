@@ -57,6 +57,46 @@ export default function Home() {
 
       </section>
 
+      {/* ── КАРТА ПУТИ ───────────────────────────────────────── */}
+      <section style={{ padding: "52px 24px 0" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Link href="/roadmap" style={{ textDecoration: "none", display: "block" }}>
+            <div style={{
+              background: "linear-gradient(135deg, #0D1B4C 0%, #2E5CAA 100%)",
+              borderRadius: 20, padding: "32px 36px",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              flexWrap: "wrap", gap: 20,
+              boxShadow: "0 8px 32px rgba(13,27,76,0.18)",
+              transition: "transform 0.2s, box-shadow 0.2s",
+            }} className="roadmap-banner">
+              <div>
+                <div style={{
+                  fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.6)", marginBottom: 8,
+                }}>
+                  Новое на сайте
+                </div>
+                <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.25 }}>
+                  🗺 Визуальная карта пути эмигранта
+                </h2>
+                <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.75)", margin: 0, lineHeight: 1.6, maxWidth: 480 }}>
+                  Все варианты легализации в Сербии: виза-ран, ВНЖ по ИП / ООО / работе / браку,
+                  ПМЖ и гражданство — наглядно со ссылками на гайды.
+                </p>
+              </div>
+              <div style={{
+                background: "rgba(255,255,255,0.12)", border: "1.5px solid rgba(255,255,255,0.25)",
+                borderRadius: 12, padding: "12px 22px",
+                color: "#fff", fontWeight: 700, fontSize: 14, whiteSpace: "nowrap",
+              }}>
+                Открыть карту →
+              </div>
+            </div>
+          </Link>
+        </div>
+      </section>
+      <style>{`.roadmap-banner:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(13,27,76,0.24) !important; }`}</style>
+
       {/* ── СПРАВОЧНИК ───────────────────────────────────────── */}
       <section style={{ padding: "52px 24px 0" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>

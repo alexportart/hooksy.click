@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
+  { href: "/roadmap", label: "Карта пути" },
   { href: "/topics", label: "Справочник" },
   { href: "/articles", label: "Статьи" },
   { href: "/guides", label: "Гайды" },
